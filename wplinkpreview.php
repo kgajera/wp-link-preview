@@ -57,10 +57,7 @@ class WPLinkPreview {
     * AJAX action to fetch and output the link preview content
     */
     function fetch_wplinkpreview() {
-        $url = $_GET['url'];
-
-        // Remove all illegal characters from the URL
-        $url = filter_var( $url, FILTER_SANITIZE_URL );
+        $url = esc_url( $_GET['url'] );
 
         // Validate to ensure we have a URL
         if ( filter_var( $url, FILTER_VALIDATE_URL ) === false ) {
