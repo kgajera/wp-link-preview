@@ -74,7 +74,7 @@ class WPLinkPreview {
         $title = $this->get_document_title( $meta, $document );
         $description = $this->get_document_description( $meta, $document );
         $image_url = $this->get_document_image( $meta, $document );
-
+        $favicon = $this->get_document_favicon( $document );
         ?>
         <div class="wplinkpreview">
             <?php if ( ! empty( $image_url ) ) { ?>
@@ -93,6 +93,9 @@ class WPLinkPreview {
                 <?php echo esc_html( $description ); ?>
             </div>
             <div class="wplinkpreview-source">
+                <?php if ( ! empty( $favicon ) ) { ?>
+                    <img src="<?php echo esc_url( $favicon ); ?>" width="16" height="16" />
+                <?php } ?>
                 <a href="<?php echo esc_url( $url ); ?>" target="_blank">
                     <?php echo esc_html( $parsed_url["host"] ); ?>
                 </a>
@@ -157,6 +160,28 @@ class WPLinkPreview {
         $image = $meta['og:image'];
     
         return $image;
+    }
+
+    /**
+    * Return the favicon for the document
+    *
+    * @param DOMDocument $document
+    * @return string The favicon image URL
+    */
+    function get_document_favicon( $document ) {
+        $favicon = '';
+        $links = $document->getElementsByTagName( 'link' );
+
+        for( $i = 0; $i < $links->length; $i++ ) {
+            $link = $links->item($i);
+
+            if ( $link->getAttribute('rel') == 'icon' || $link->getAttribute('rel') == "Shortcut Icon" ||$link->getAttribute('rel') == "shortcut icon" ) {
+                $favicon = $link->getAttribute('href');
+                break;
+            }
+        }
+
+        return $favicon;
     }
 
     /**
