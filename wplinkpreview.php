@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Link Preview
- * Version: 1.1
+ * Version: 1.2
  * Author: Kishan Gajera
  * Author URI: http://www.kgajera.com
  * Description: Turn a URL into a Facebook like link preview
@@ -21,6 +21,7 @@ class WPLinkPreview {
     function __construct() {
         if ( is_admin() ) {
             add_action( 'init', array( $this, 'init_tinymce' ) );
+            add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );            
         }
 
         // Enqueue default styles for the link preview HTML
@@ -28,12 +29,20 @@ class WPLinkPreview {
     }
 
     /**
+    * Make site url available in JavaScript
+    */
+    function admin_print_scripts() {
+        echo "<script type='text/javascript'>\n";
+        echo 'var siteurl = ' . wp_json_encode(  get_option( 'siteurl' ) ) . ';';
+        echo "\n</script>";
+    }
+
+    /**
     * Register plugin front-end stylesheet
     */
     function enqueue_scripts() {
         wp_register_style( 'wplinkpreview-style', plugins_url( '/wplinkpreview.css', __FILE__ ), array(), '20120208', 'all' );
-        
-        wp_enqueue_style( 'wplinkpreview-style' );
+        wp_enqueue_style( 'wplinkpreview-style' );        
     }
 
     /**

@@ -1,11 +1,9 @@
 === WP Link Preview ===
 Contributors: kgajera
 Tags: link preview, facebook link preview, link teaser, link excerpt, share link, url preview, url teaser, url excerpt, share url
-
 Requires at least: 4.7
 Tested up to: 4.8
-Stable tag: 1.1
-
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,8 +22,12 @@ This plugin will add a button to your post/page editor which can be used to gene
 1. screenshot-1.png
 2. screenshot-2.png
 3. screenshot-3.png
+4. screenshot-4.png
 
 == Changelog ==
 
+= 1.2 =
+* Batch input of URLs to generate links previews for
+* Show loading image while link preview is being fetched
 = 1.1 =
 * Remove output of extra HTML when any or all meta data does not exist
