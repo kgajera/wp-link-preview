@@ -3,7 +3,7 @@ Contributors: kgajera
 Tags: link preview, facebook link preview, link teaser, link excerpt, share link, url preview, url teaser, url excerpt, share url
 Requires at least: 4.7
 Tested up to: 4.8
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,6 +11,8 @@ Display a preview for a URL similar to sharing a link on Facebook.
 
 == Description ==
 This plugin will add a button to your post/page editor which can be used to generate and embed a link preview for a given URL. The link preview consists of a title, description and image which will result in a similar look as sharing a link on Facebook.
+
+The link preview can also be generated with shortcode: [wplinkpreview url=""]
 
 == Installation ==
 1. Uncompress the download package
@@ -26,8 +28,10 @@ This plugin will add a button to your post/page editor which can be used to gene
 
 == Changelog ==
 
+= 1.3 =
+* Ability to generate link preview using shortcode (ex. [wplinkpreview url="wordpress.org"])
 = 1.2 =
 * Batch input of URLs to generate links previews for
-* Show loading image while link preview is being fetched
+* Show loading message while link preview is being fetched
 = 1.1 =
 * Remove output of extra HTML when any or all meta data does not exist

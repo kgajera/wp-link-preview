@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Link Preview
- * Version: 1.2
+ * Version: 1.3
  * Author: Kishan Gajera
  * Author URI: http://www.kgajera.com
  * Description: Turn a URL into a Facebook like link preview
@@ -26,6 +26,9 @@ class WPLinkPreview {
 
         // Enqueue default styles for the link preview HTML
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+        // Enable fetching link preview through shortcode
+        add_shortcode( 'wplinkpreview', array( $this, 'shortcode' ) );        
     }
 
     /**
@@ -49,31 +52,9 @@ class WPLinkPreview {
     * AJAX action to fetch and output the link preview content
     */
     function fetch_wplinkpreview() {
-        $url = esc_url( $_GET['url'] );
-
-        // Validate to ensure we have a URL
-        if ( filter_var( $url, FILTER_VALIDATE_URL ) !== false ) {
-            // Ensure we have a scheme
-            $this->url = preg_replace( '/^(?!https?:\/\/)/', 'http://', $url );
-
-            // Fetch and parse the document at the given URL
-            $this->setup_link_preview();
-
-            if ( ! empty( $this->document ) ) {
-                ?>
-                <div class="<?php $this->the_class(); ?>">
-                    <?php 
-                    $this->the_image();
-                    $this->the_title();
-                    $this->the_description();
-                    $this->the_source();
-                    ?>
-                </div>
-                <br />
-                <?php
-            }
-        }
-
+        $url = $_GET['url'];
+        $this->the_link_preview( $url );
+        echo '<br />';
         wp_die();
     }
 
@@ -124,7 +105,7 @@ class WPLinkPreview {
     *
     * @return string A image URL
     */
-    function get_document_image() {   
+    function get_document_image() {
         return $this->meta['og:image'];
     }
 
@@ -242,6 +223,16 @@ class WPLinkPreview {
         }
     }
 
+    function shortcode( $atts ) {
+        extract(shortcode_atts(array(
+            'url' => '',
+         ), $atts));
+
+        ob_start();
+        $this->the_link_preview( $atts['url'] );
+        return ob_get_clean();
+    }
+
     function the_class( $suffix = '' ) {
         echo esc_attr( 'wplinkpreview' . ( empty( $suffix ) ? '' : '-' . $suffix ) );
     }
@@ -269,6 +260,32 @@ class WPLinkPreview {
                 </a>
             </div>
             <?php
+        }
+    }
+
+    function the_link_preview( $url = "" ) {
+        $url = esc_url( $url );
+        
+        // Validate to ensure we have a URL
+        if ( filter_var( $url, FILTER_VALIDATE_URL ) !== false ) {
+            // Ensure we have a scheme
+            $this->url = preg_replace( '/^(?!https?:\/\/)/', 'http://', $url );
+
+            // Fetch and parse the document at the given URL
+            $this->setup_link_preview();
+
+            if ( ! empty( $this->document ) ) {
+                ?>
+                <div class="<?php $this->the_class(); ?>">
+                    <?php 
+                    $this->the_image();
+                    $this->the_title();
+                    $this->the_description();
+                    $this->the_source();
+                    ?>
+                </div>
+                <?php
+            }
         }
     }
 
