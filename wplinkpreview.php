@@ -122,8 +122,12 @@ class WPLinkPreview {
             $link = $links->item($i);
 
             if ( $link->getAttribute('rel') == 'icon' || $link->getAttribute('rel') == "Shortcut Icon" ||$link->getAttribute('rel') == "shortcut icon" ) {
-                $favicon = $link->getAttribute('href');
-                break;
+                $href = $link->getAttribute('href');
+
+                if ( filter_var( $href, FILTER_VALIDATE_URL ) !== false ) {
+                    $favicon = $href;
+                    break;
+                }
             }
         }
 
