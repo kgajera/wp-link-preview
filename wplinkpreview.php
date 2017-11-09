@@ -163,6 +163,25 @@ class WPLinkPreview {
     }
 
     /**
+    * Return the url of the document. The following tags will be
+    * used to find the url until one is found:
+    *  1) open graph url meta tag
+    *  2) the url used to make the request
+    *
+    * @return string A url
+    */
+    function get_document_url() {
+        // 1) Use the open graph url
+        $og_url = $this->meta['og:url'];
+
+        if ( ! empty( $og_url ) ) {
+            return $og_url;
+        }
+
+        return $this->url;
+    }
+
+    /**
     * Adds a TinyMCE plugin compatible JS file to the TinyMCE / Visual Editor instance
     *
     * @param array $plugin_array Array of registered TinyMCE Plugins
@@ -190,9 +209,9 @@ class WPLinkPreview {
     *
     */
     function parse_document_meta() {
-        $meta_tags = $this->document->getElementsByTagName('meta');
+        $meta_tags = $this->document->getElementsByTagName( 'meta' );
 
-        for ($i = 0; $i < $meta_tags->length; $i++) {
+        for ( $i = 0; $i < $meta_tags->length; $i++ ) {
             $meta = $meta_tags->item( $i );
             $name = $meta->getAttribute( 'name' );
 
@@ -243,7 +262,7 @@ class WPLinkPreview {
 
     function the_description() {
         $description = $this->get_document_description();
-        
+
         if ( ! empty( $description ) ) {
             ?>
             <div class="<?php $this->the_class( 'description' ); ?>">
@@ -259,7 +278,7 @@ class WPLinkPreview {
         if ( ! empty( $image_url ) ) {
             ?>
             <div class="<?php $this->the_class( 'image' ); ?>">
-                <a href="<?php echo esc_url ( $this->url ); ?>" target="_blank">
+                <a href="<?php echo esc_url ( $this->get_document_url() ); ?>" target="_blank">
                     <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $this->get_document_title() ); ?>" />
                 </a>
             </div>
@@ -269,7 +288,7 @@ class WPLinkPreview {
 
     function the_link_preview( $url = "" ) {
         $url = esc_url( $url );
-        
+
         // Validate to ensure we have a URL
         if ( filter_var( $url, FILTER_VALIDATE_URL ) !== false ) {
             // Ensure we have a scheme
@@ -295,13 +314,13 @@ class WPLinkPreview {
 
     function the_source() {
         $favicon = $this->get_document_favicon();
-        $parsed_url = parse_url( $this->url );
+        $parsed_url = parse_url( $this->get_document_url() );
         ?>
         <div class="<?php $this->the_class( 'source' ); ?>">
             <?php if ( ! empty( $favicon ) ) { ?>
                 <img src="<?php echo esc_url( $favicon ); ?>" width="16" height="16" />
             <?php } ?>
-            <a href="<?php echo esc_url( $this->url ); ?>" target="_blank">
+            <a href="<?php echo esc_url( $this->get_document_url() ); ?>" target="_blank">
                 <?php echo esc_html( $parsed_url["host"] ); ?>
             </a>
         </div>
@@ -314,7 +333,7 @@ class WPLinkPreview {
         if ( ! empty( $title ) ) {
             ?>
             <div class="<?php $this->the_class( 'title' ); ?>">
-                <a href="<?php echo esc_url( $this->url ); ?>" target="_blank">
+                <a href="<?php echo esc_url( $this->get_document_url() ); ?>" target="_blank">
                     <?php echo esc_html( $title ); ?>
                 </a>
             </div>
