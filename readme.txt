@@ -3,7 +3,7 @@ Contributors: kgajera
 Tags: link preview, facebook link preview, link teaser, link excerpt, share link, url preview, url teaser, url excerpt, share url
 Requires at least: 4.7
 Tested up to: 4.8
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,10 @@ The link preview can also be generated with shortcode: [wplinkpreview url=""]
 
 == Changelog ==
 
+= 1.4 =
+* Fix character encoding issues
+* Use 'og:url' when possible to display the source URL
+* Validate favicon url to ensure its a valid absolute URL
 = 1.3 =
 * Ability to generate link preview using shortcode (ex. [wplinkpreview url="wordpress.org"])
 = 1.2 =

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Link Preview
- * Version: 1.3
+ * Version: 1.4
  * Author: Kishan Gajera
  * Author URI: http://www.kgajera.com
  * Description: Turn a URL into a Facebook like link preview
