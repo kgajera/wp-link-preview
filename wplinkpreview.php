@@ -95,7 +95,7 @@ class WPLinkPreview {
             $description = $this->meta['description'];
         }
 
-        return $description;
+        return utf8_decode( $description );
     }
 
     /**
@@ -155,7 +155,7 @@ class WPLinkPreview {
             $title = $nodes->item(0)->nodeValue;
         }
 
-        return $title;
+        return utf8_decode( $title );
     }
 
     /**
